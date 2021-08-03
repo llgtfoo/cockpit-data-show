@@ -1,0 +1,76 @@
+[
+    {
+        "cname": "整体经营情况",
+        "cnameKey": "/cockpit/operation",
+        "normalUrl": "/cockpit/operation",
+        "icon": "icon-jingyingqingkuang"
+    },
+    {
+        "cname": "零售业务",
+        "cnameKey": "/cockpit/retail",
+        "normalUrl": "/cockpit/retail",
+        "icon": "icon-icon-retail",
+        "children": [
+            {
+                "cname": "主要经营指标",
+                "cnameKey": "/cockpit/retail",
+                "normalUrl": "/cockpit/retail",
+                "icon": ""
+            },
+            {
+                "cname": "各业务详情",
+                "cnameKey": "/cockpit/retail",
+                "normalUrl": "/cockpit/retail",
+                "icon": ""
+            },
+            {
+                "cname": "分支结构详情",
+                "cnameKey": "/cockpit/retail",
+                "normalUrl": "/cockpit/retail",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "cname": "机构业务",
+        "cnameKey": "/cockpit/institutions",
+        "normalUrl": "/cockpit/institutions",
+        "icon": "icon-icon-institutions"
+    },
+    {
+        "cname": "产业客户业务",
+        "cnameKey": "/cockpit/customers",
+        "normalUrl": "/cockpit/customers",
+        "icon": "icon-icon-customers"
+    },
+    {
+        "cname": "投资业务",
+        "cnameKey": "/cockpit/investment",
+        "normalUrl": "/cockpit/investment",
+        "icon": "icon-icon-investment"
+    },
+    {
+        "cname": "资管业务",
+        "cnameKey": "/cockpit/technology",
+        "normalUrl": "/cockpit/technology",
+        "icon": "icon-icon-investment"
+    },
+    {
+        "cname": "信用业务",
+        "cnameKey": "/cockpit/credit",
+        "normalUrl": "/cockpit/credit",
+        "icon": "icon-icon-credit"
+    },
+    {
+        "cname": "股权投资业务",
+        "cnameKey": "/cockpit/equity",
+        "normalUrl": "/cockpit/equity",
+        "icon": "icon-icon-equity"
+    },
+    {
+        "cname": "人力情况",
+        "cnameKey": "/cockpit/human",
+        "normalUrl": "/cockpit/human",
+        "icon": "icon-icon-human"
+    }
+]
