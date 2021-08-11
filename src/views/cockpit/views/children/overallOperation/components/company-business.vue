@@ -151,6 +151,7 @@
                 </a-select-option>
               </a-select>
               <img
+                @click="monthModel=true"
                 src="@/assets/imgs/overallOperation/biaodan.png"
                 alt=""
               >
@@ -162,6 +163,15 @@
         </div>
       </div>
     </div>
+    <model-page
+      v-model="monthModel"
+      title="手续费及佣金收入（全部）"
+    >
+      <sample-table-x
+        :columns="monthColumns"
+        :data="monthData"
+      ></sample-table-x>
+    </model-page>
   </div>
 </template>
 
@@ -442,6 +452,15 @@ export default {
         },
 
       ],
+      monthModel: false,
+      monthColumns: ['指标', '本公司（万元）', '行业均值（万元） ', '行业最高值（万元 ）', '排名'],
+      monthData: [
+        ['2020年03月', '2020年06月', '2020年09月 ', '2020年12 月', '2021年03月'],
+        ['2992.22', '1111', '1111 ', '111 1', '1111'],
+        ['2992.22', '1111', '1111 ', '111 1', '1111'],
+        ['2992.22', '1111', '1111 ', '111 1', '1111'],
+        ['12/122', '13/122', '12/33 ', '22/12 2', '33/122'],
+      ],
     })
     onMounted(() => {
       state.options.xAxis[0].data = state.list.map(item => item.name)
@@ -459,7 +478,7 @@ export default {
 <style lang="scss" scoped>
 .sub-menu-enter-active,
 .sub-menu-leave-active {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
   max-height: 270px; /* 这里将最大高度设置为折叠元素不可能超越的高度 比如1000px */
   opacity: 1;
 }
@@ -468,7 +487,7 @@ export default {
   max-height: 270px;
   opacity: 1;
 }
-.sub-menu-enter,
+.sub-menu-enter-from,
 .sub-menu-leave-to {
   opacity: 0;
   max-height: 0px;

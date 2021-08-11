@@ -1,11 +1,11 @@
 const path = require('path')
-const resolve = dir => path.join(__dirname, dir)
+const resolve = (dir) => path.join(__dirname, dir)
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   pluginOptions: {
     PROJ_TYPE: 'template', // 项目类型
   },
-   css: {
+  css: {
     loaderOptions: {
       less: {
         lessOptions: {
@@ -19,10 +19,12 @@ module.exports = {
       },
     },
   },
+  runtimeCompiler: true,
   //webpack配置---目录别名
   configureWebpack: {
     resolve: {
-      alias: { //配置文件路径别名
+      alias: {
+        //配置文件路径别名
         comps: path.join(__dirname, 'src/components'), //组件
         dcts: path.join(__dirname, 'src/directives'), //指令
         http: path.join(__dirname, 'src/http'),
@@ -32,15 +34,17 @@ module.exports = {
     },
   },
   chainWebpack(config) {
-    config.resolve.alias
-      .set('vue$', 'vue/dist/vue.esm-bundler.js')
+    config.resolve.symlinks(true)
+    config.resolve.alias.set('vue$', 'vue/dist/vue.esm-bundler.js')
     // console.log(config)
     //去除默认配置处理的svg文件
     config.module.rule('svg').exclude.add(resolve('src/icons'))
     //自定义配置处理svg文件
-    config.module.rule('icons')
+    config.module
+      .rule('icons')
       .test(/\.svg$/)
-      .include.add(resolve('src/icons')).end()
+      .include.add(resolve('src/icons'))
+      .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({ symbolId: 'icon-[name]' })
@@ -48,7 +52,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://www.fastmock.site/mock/a76ff711b33a233cdeac2112d8d909d0/llgtfoo/',
+        target:
+          'https://www.fastmock.site/mock/a76ff711b33a233cdeac2112d8d909d0/llgtfoo/',
         changeOrigin: true,
         pathRewrite: { '^/api': '' },
       },

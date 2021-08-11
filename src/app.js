@@ -1,4 +1,4 @@
-import '@/assets/css/init.css' //全局默认css
+import '@/assets/css/init.scss' //全局默认css
 import '@/assets/css/scroll.scss' //全局默认css
 import '@/icons/index' //svg图标
 import Antd from 'ant-design-vue'
@@ -16,7 +16,7 @@ import router from './router' //路由
 import store from './store' //状态管理
 import utils from './utils/index' //全局工具函数
 import views from './views/index'
-sync(store, router)//route和store结合
+sync(store, router) //route和store结合
 const app = createApp(App)
   .use(views, router, store)
   .use(axiosPlugin)
@@ -26,7 +26,7 @@ const app = createApp(App)
   .use(directives)
   .use(utils)
   .use(Antd)
-  //全局挂载
+//全局挂载
 app.config.globalProperties.$http = http
 app.config.globalProperties.$echarts = echarts
 export default app

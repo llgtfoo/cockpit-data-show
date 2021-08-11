@@ -48,7 +48,10 @@
           class="line-chart"
           ref="quarterRef"
         >
-          <div class="model-show">
+          <div
+            class="model-show"
+            @click="quarterModel=true"
+          >
             <img
               src="@/assets/imgs/overallOperation/biaodan.png"
               alt=""
@@ -97,7 +100,10 @@
           </li>
         </ul>
         <div class="line-chart">
-          <div class="model-show">
+          <div
+            class="model-show"
+            @click="monthModel=true"
+          >
             <img
               src="@/assets/imgs/overallOperation/biaodan.png"
               alt=""
@@ -107,6 +113,26 @@
         </div>
       </div>
     </div>
+    <!-- 季度 -->
+    <model-page
+      v-model="quarterModel"
+      title="母公司资产情况"
+    >
+      <sample-table-x
+        :columns="quarterColumns"
+        :data="quarterData"
+      ></sample-table-x>
+    </model-page>
+    <!-- 月度 -->
+    <model-page
+      v-model="monthModel"
+      title="母公司资产情况"
+    >
+      <sample-table-x
+        :columns="monthColumns"
+        :data="monthData"
+      ></sample-table-x>
+    </model-page>
   </div>
 </template>
 
@@ -398,6 +424,24 @@ export default {
           },
         ],
       },
+      quarterModel: false,
+      monthModel: false,
+      quarterColumns: [
+        '日期', '总资产（万元）', '排名 ', '市场份额',
+      ],
+      quarterData: [
+        ['2021年01月', '2021年02月', '2021年03月', '2021年04月', '2021年05月', '2021年06月', '2021年07月', '2021年08月', '2021年09月', '2021年10月', '2021年11月', '2021年12月'],
+        ['100', '100', '100', '100', '100', '100', '100', '100', '100', '100', '100', '100'],
+        ['100', '100', '100', '100', '100', '100', '100', '100', '100', '100', '100', '100'],
+      ],
+      monthColumns: [
+        '日期', '总资产（万元）', '环比',
+      ],
+      monthData: [
+        ['2021年01月', '2021年02月', '2021年03月', '2021年04月', '2021年05月', '2021年06月', '2021年07月', '2021年08月', '2021年09月', '2021年10月', '2021年11月', '2021年12月'],
+        ['100', '1300', '1030', '100', '1300', '100', '1300', '1030', '1030', '1030', '100', '100'],
+        ['1030', '100', '100', '100', '1030', '100', '1300', '1030', '100', '100', '100', '100'],
+      ],
     })
     onMounted(() => {
       state.quarterOptions.xAxis[0].data = state.quarterList.map(item => item.name)
@@ -417,7 +461,11 @@ export default {
       state.currentCardMonth = index + 1
     }
     return {
-      ...toRefs(state), tabChange, quarterRef, tabClickQuarter, tabClickMonth,
+      ...toRefs(state),
+      tabChange,
+      quarterRef,
+      tabClickQuarter,
+      tabClickMonth,
     }
   },
 }

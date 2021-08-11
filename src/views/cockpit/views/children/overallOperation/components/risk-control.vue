@@ -4,6 +4,7 @@
     <div class="content-main">
       <div class="left">
         <img
+          @click="riskModelOne=true"
           src="@/assets/imgs/overallOperation/biaodan.png"
           alt=""
         >
@@ -13,6 +14,7 @@
         <div class="title">
           <span>最新数据：2020年06月</span>
           <img
+            @click="riskModelTwo=true"
             src="@/assets/imgs/overallOperation/biaodan.png"
             alt=""
           >
@@ -41,9 +43,72 @@
               <span>安全区域</span>
             </div>
           </div>
+          <ul class="list-line">
+            <li
+              v-for="(item,index) in riskList"
+              :key="index"
+              @mouseenter="e=>tipShow(e,item,index)"
+              @mouseleave="showTip = false"
+            >
+              <div class="block">
+                <div class="begin">
+                  <div class="icon"></div>
+                  <div
+                    class="line"
+                    :style="beginClass(item)"
+                  ></div>
+                </div>
+                <div class="end">
+                  <div class="icon"></div>
+                  <div
+                    class="line"
+                    :style="endClass(item)"
+                  ></div>
+                </div>
+              </div>
+              <div class="text">{{item.name}}</div>
+            </li>
+          </ul>
+          <div
+            class="tip"
+            v-if="showTip"
+            :style="tipStyle"
+          >
+            <p class="name">{{tipData.name}}</p>
+            <p class="value">
+              期初：{{tipData.beginningValue}}%
+            </p>
+            <p class="value">
+              期末：{{tipData.endingValue}}%
+            </p>
+            <p class="risk">
+              预警标准：>=120%
+            </p>
+            <p class="risk">
+              监管标准：>=100%
+            </p>
+          </div>
         </div>
       </div>
     </div>
+    <model-page
+      v-model="riskModelOne"
+      title="风控控制指标监管1"
+    >
+      <sample-table-y
+        :columns="riskOneColumns"
+        :data="listLeft"
+      ></sample-table-y>
+    </model-page>
+    <model-page
+      v-model="riskModelTwo"
+      title="风控控制指标监管2"
+    >
+      <sample-table-y
+        :columns="riskTwoColumns"
+        :data="riskList"
+      ></sample-table-y>
+    </model-page>
   </div>
 </template>
 
@@ -56,27 +121,27 @@ export default {
       count: 0,
       listLeft: [
         {
-          name: '核心净资本',
+          name: '核心净资本（万元）',
           value1: '2000',
           value2: '2500',
         },
         {
-          name: '附属净资本',
+          name: '附属净资本（万元）',
           value1: '900',
           value2: '1000',
         },
         {
-          name: '净资本',
+          name: '净资本（万元）',
           value1: '2200',
           value2: '1800',
         },
         {
-          name: '各项风险资本准备之和',
+          name: '各项风险资本准备之和（万元）',
           value1: '1500',
           value2: '1200',
         },
         {
-          name: '表内外资产总额',
+          name: '表内外资产总额（万元）',
           value1: '800',
           value2: '900',
         },
@@ -123,6 +188,9 @@ export default {
             },
           },
           axisLabel: {
+            formatter: function (params) {
+              return params.substring(0, params.indexOf('（万元）'))
+            },
             textStyle: {
               color: '#3C3C3C', //坐标值得具体的颜色
               'fontWeight': 'bold',
@@ -167,14 +235,150 @@ export default {
           },
         ],
       },
+      riskList: [
+        {
+          name: '风险覆盖率',
+          beginning: '0',
+          beginningValue: '66',
+          ending: '0',
+          endingValue: '110',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+        {
+          name: '资本杠杆率',
+          beginning: '0',
+          beginningValue: '110',
+          ending: '0',
+          endingValue: '100',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+        {
+          name: '流动性覆盖率',
+          beginning: '1',
+          beginningValue: '110',
+          ending: '1',
+          endingValue: '100',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+        {
+          name: '净稳定资金率',
+          beginning: '1',
+          beginningValue: '77',
+          ending: '1',
+          endingValue: '110',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+        {
+          name: '自营权益类证劵及其衍生品/净资本',
+          beginning: '2',
+          beginningValue: '100',
+          ending: '2',
+          endingValue: '100',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+        {
+          name: '自营非权益类证劵及其衍生品/净资本',
+          beginning: '2',
+          beginningValue: '110',
+          ending: '2',
+          endingValue: '100',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+        {
+          name: '融资(含融劵)金额/净资本',
+          beginning: '2',
+          beginningValue: '100',
+          ending: '2',
+          endingValue: '110',
+          warning: '>=120%',
+          supervision: '>=100%',
+        },
+      ],
+      showTip: false,
+      tipData: {},
+      tipStyle: {},
+      riskModelOne: false,
+      riskModelTwo: false,
+      riskOneColumns: [
+        {
+          name: '指标',
+          key: 'name',
+        },
+        {
+          name: '期初',
+          key: 'value1',
+        },
+        {
+          key: 'value2',
+          name: '期末',
+        },
+      ],
+      riskTwoColumns: [
+        { name: '指标', key: 'name' },
+        { name: '期初', key: 'beginningValue' },
+        { name: '期末', key: 'endingValue' },
+        { name: '预警标准', key: 'warning' },
+        { name: '监督标准', key: 'supervision' },
+      ],
     })
     onMounted(() => {
       state.options.yAxis.data = state.listLeft.map(item => item.name).reverse()
       state.options.series[0].data = state.listLeft.map(item => item.value1)
       state.options.series[1].data = state.listLeft.map(item => item.value2)
     })
+    const beginClass = (item) => {
+      return {
+        height: item.beginning === '0' ?
+          item.beginningValue > item.endingValue ?
+            '90px' :
+            '80px' : item.beginning === '1' ?
+            item.beginningValue > item.endingValue ? '150px' :
+              '40px' : item.beginning === '2' ?
+              item.beginningValue > item.endingValue ?
+                '220px' :
+                '210px' : '',
+      }
+    }
+    const endClass = (item) => {
+      return {
+        height: item.ending === '0' ?
+          item.endingValue > item.beginningValue ?
+            '90px' :
+            '80px' : item.ending === '1' ?
+            item.endingValue > item.beginningValue ?
+              '150px' :
+              '40px' : item.ending === '2' ?
+              item.endingValue > item.beginningValue ?
+                '220px' :
+                '210px' : '',
+      }
+    }
+    //显示提示窗
+    const tipShow = (e, item, index) => {
+      state.showTip = true
+      const { width } = e.target.getBoundingClientRect()
+      state.tipData = item
+      if (index < 5) {
+        state.tipStyle = {
+          left: `${(index + 1) * width - 20}px`,
+        }
+      } else {
+        state.tipStyle = {
+          right: `${(state.riskList.length - index) * width - 20}px`,
+        }
+      }
+    }
     return {
       ...toRefs(state),
+      endClass,
+      beginClass,
+      tipShow,
     }
   },
 }
@@ -210,6 +414,7 @@ export default {
         right: 10px;
         top: 10px;
         cursor: pointer;
+        z-index: 9;
       }
     }
     .right {
@@ -218,7 +423,7 @@ export default {
       background: #fff;
       margin-right: 10px;
       border-radius: 10px;
-      padding: 20px 10px;
+      padding: 10px;
       box-sizing: border-box;
       position: relative;
       .regulatory {
@@ -226,11 +431,29 @@ export default {
         height: 350px;
         margin-top: 15px;
         position: relative;
+        .tip {
+          position: absolute;
+          background: rgba(31, 31, 31, 0.4);
+          padding: 5px 10px;
+          border: 1px solid #ddd;
+          top: 35%;
+          transform: translateY(-50%);
+          z-index: 999;
+          p {
+            margin: 0;
+            line-height: 30px;
+            font-size: 16px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #fff;
+          }
+        }
         .regulatory-bg {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
+          z-index: 0;
           //   height: 100%;
           > div {
             display: flex;
@@ -262,6 +485,102 @@ export default {
             background: #e3fcee;
             span {
               color: #b6d9c5;
+            }
+          }
+        }
+        .list-line {
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          position: absolute;
+          top: 0px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          cursor: pointer;
+          margin: 0;
+          :hover {
+            background: rgba(31, 31, 31, 0.1);
+          }
+          li {
+            flex: 1;
+            margin: 0;
+            // height: 100%;
+            .block {
+              height: 255px;
+              width: 100%;
+              display: flex;
+              align-items: flex-end;
+              justify-content: center;
+              .begin {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .icon {
+                  display: inline-block;
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 50%;
+                  position: relative;
+                  background: #193bff;
+                  &::before {
+                    content: "";
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    background: #fff;
+                    border-radius: 50%;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  }
+                }
+                .line {
+                  width: 2px;
+                  background: #193bff;
+                }
+              }
+              .end {
+                margin-left: 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .icon {
+                  display: inline-block;
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 50%;
+                  position: relative;
+                  background: #dc34e5;
+                  &::before {
+                    content: "";
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    background: #fff;
+                    border-radius: 50%;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  }
+                }
+                .line {
+                  width: 2px;
+                  background: #dc34e5;
+                }
+              }
+            }
+            .text {
+              height: 95px;
+              width: 100%;
+              box-sizing: border-box;
+              font-size: 16px;
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 500;
+              color: #3c3c3c;
+              padding: 5px 10px;
+              letter-spacing: 1px;
+              text-align: center;
             }
           }
         }

@@ -42,6 +42,7 @@
                 {{item}}
               </li>
               <img
+                @click="quarterModel=true"
                 src="@/assets/imgs/overallOperation/biaodan.png"
                 alt=""
               >
@@ -84,6 +85,7 @@
                 {{item}}
               </li>
               <img
+                @click="monthModel=true"
                 src="@/assets/imgs/overallOperation/biaodan.png"
                 alt=""
               >
@@ -95,6 +97,26 @@
         </div>
       </div>
     </div>
+    <!-- 年度 -->
+    <model-page
+      v-model="quarterModel"
+      title="集团资产情况"
+    >
+      <sample-table-x
+        :columns="quarterColumns"
+        :data="quarterData"
+      ></sample-table-x>
+    </model-page>
+    <!-- 季度 -->
+    <model-page
+      v-model="monthModel"
+      title="集团资产情况"
+    >
+      <sample-table-x
+        :columns="monthColumns"
+        :data="monthData"
+      ></sample-table-x>
+    </model-page>
   </div>
 </template>
 
@@ -374,6 +396,20 @@ export default {
           },
         ],
       },
+      quarterModel: false,
+      monthModel: false,
+      quarterColumns: ['指标', '总资产（万元）', '排名'],
+      quarterData: [
+        ['2016年', '2017年', '2018年', '2019年', '2020年'],
+        ['1111.22', '1131.22', '22.22', '3333.22', '444.22'],
+        ['12/122', '21/233', '21/222', '21/122', '12/322'],
+      ],
+      monthColumns: ['日期', '总资产（万元）', '环比'],
+      monthData: [
+        ['2016年', '2017年', '2018年', '2019年', '2020年'],
+        ['1111.22', '1131.22', '22.22', '3333.22', '444.22'],
+        ['21%', '32%', '48%', '43.7%', '12.44%'],
+      ],
     })
     onMounted(() => {
       state.yearOptions.xAxis[0].data = state.yearList.map(item => item.name)

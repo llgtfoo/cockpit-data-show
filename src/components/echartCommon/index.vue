@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { defineComponent, ref,
-  toRefs, onMounted, onUnmounted, watch, reactive, nextTick } from 'vue'
+import {defineComponent, ref,
+  onMounted, onUnmounted, watch, nextTick,} from 'vue'
 import * as echarts from 'echarts'
 import doAnimation from 'utils/doAnimation.js'
 
@@ -24,8 +24,12 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    hasClick: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     // const { proxy } = getCurrentInstance()//获取App全局变量
     let chart = null
     const animate = ref(null)
@@ -65,6 +69,12 @@ export default defineComponent({
         // eslint-disable-next-line no-unused-vars
         new Promise((resolve, reject) => {
           props.options && chart.setOption(props.options)
+          //点击
+          if (props.hasClick) {
+            chart.on('click', (params) => {
+              emit('handleChange', params)
+            })
+          }
           resolve(true)
         }).then(() => {
           if (animate.vlaue) {

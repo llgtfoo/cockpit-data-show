@@ -24,5 +24,13 @@ export default () => ({
         name: '投资业务',
       },
     },
+    {
+      path: '/cockpit/human',
+      name: 'human',
+      component: () => import('./views/children/humanSituation/index.vue'),
+      meta: {
+        name: '人力情况',
+      },
+    },
   ],
 })

@@ -103,7 +103,7 @@ const SubMenu = {
 }
 
 export default defineComponent({
-  name: 'Layout',
+  name: 'Layouts',
   components: {
     'sub-menu': SubMenu,
     'icon-font': IconFont,

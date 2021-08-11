@@ -20,15 +20,12 @@ html {
   width: 100%;
   position: relative;
 }
-
 /deep/ .ant-calendar-month {
-  width: 350px !important;
+  width: 350px!important;
 }
-
 .ant-calendar-footer-extra {
   text-align: right !important;
-}
-
-.ant-calendar-footer-extra button {
-  margin-left: 5px;
+  button{
+    margin-left:5px;
+  }
 }
